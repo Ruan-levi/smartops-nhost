@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartOps BaaS - Gestão Inteligente de Ocorrências</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- SDK Oficial Nhost JavaScript -->
+  <script src="https://unpkg.com/@nhost/nhost-js@2.4.0/dist/nhost.umd.min.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- CABEÇALHO -->
+    <header>
+      <div class="brand">
+        <h1>SmartOps</h1>
+        <span class="badge-baas">Nhost Cloud Engine</span>
+      </div>
+      <div id="auth-status">
+        <span id="user-email"></span>
+        <button id="btn-logout" class="btn-danger hidden">Sair</button>
+      </div>
+    </header>
+
+    <!-- TELA DE AUTENTICAÇÃO (LOGIN / REGISTRO) -->
+    <section id="auth-section" class="card">
+      <h2>Acesso à Plataforma</h2>
+      <p class="subtitle">Faça login ou crie sua conta para gerenciar e acompanhar chamados</p>
+      
+      <div class="form-group">
+        <label for="auth-email">E-mail de Acesso:</label>
+        <input type="email" id="auth-email" placeholder="seu.email@exemplo.com">
+      </div>
+      
+      <div class="form-group">
+        <label for="auth-password">Senha:</label>
+        <input type="password" id="auth-password" placeholder="******">
+      </div>
+
+      <div class="button-group">
+        <button id="btn-login" class="btn-primary">Entrar no Sistema</button>
+        <button id="btn-signup" class="btn-secondary">Cadastrar Nova Conta</button>
+      </div>
+    </section>
+
+    <!-- PAINEL PRINCIPAL DO USUÁRIO -->
+    <main id="main-section" class="hidden">
+      
+      <!-- FORMULÁRIO DE OCORRÊNCIAS (CRUD: CREATE + STORAGE UPLOAD) -->
+      <section class="card">
+        <h2>Registrar Nova Ocorrência</h2>
+        <form id="form-ocorrencia">
+          <div class="grid-form">
+            <div class="form-group">
+              <label for="titulo">Título do Chamado:</label>
+              <input type="text" id="titulo" required placeholder="Ex: Queda de árvore na via pública">
+            </div>
+            
+            <div class="form-group">
+              <label for="categoria">Categoria da Ocorrência:</label>
+              <select id="categoria">
+                <option value="Infraestrutura">Infraestrutura</option>
+                <option value="Segurança">Segurança</option>
+                <option value="Limpeza Urbana">Limpeza Urbana</option>
+                <option value="Outros">Outros</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="descricao">Descrição Detalhada:</label>
+            <textarea id="descricao" required placeholder="Descreva os detalhes da situação encontrada"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="imagem">Evidência Fotográfica (Upload no Storage Bucket):</label>
+            <input type="file" id="imagem" accept="image/*">
+          </div>
+
+          <button type="submit" class="btn-primary">Submeter Ocorrência</button>
+        </form>
+      </section>
+
+      <!-- EXECUTOR DA FUNÇÃO SERVERLESS -->
+      <section class="card bg-highlight">
+        <div class="header-with-badge">
+          <h2>Motor Serverless Nhost</h2>
+          <span class="badge-tech">Node.js Engine</span>
+        </div>
+        <p class="subtitle">Dispare o cálculo de SLA e severidade processado diretamente na nuvem Nhost:</p>
+        <button id="btn-serverless" class="btn-warning">Calcular SLA via Serverless Function</button>
+        <pre id="serverless-result" class="result-box hidden"></pre>
+      </section>
+
+      <!-- FEED EM TEMPO REAL (REALTIME GRAPHQL SUBSCRIPTIONS) -->
+      <section class="card">
+        <div class="header-with-badge">
+          <h2>Mural Reativo de Chamados</h2>
+          <span class="badge-realtime">WebSocket Realtime Ativo</span>
+        </div>
+        <div id="lista-ocorrencias" class="grid-cards">
+          <p class="loading-text">Aguardando dados em tempo real do Postgres...</p>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
